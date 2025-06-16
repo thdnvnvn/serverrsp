@@ -1,0 +1,16 @@
+name: vps
+
+on: {workflow_dispatch:}
+
+jobs:
+  vps:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          sudo apt update
+          sudo apt install -y tmate
+          tmate -S t.sock new-session -d
+          tmate -S t.sock wait tmate-ready
+          tmate -S t.sock display -p '#{tmate_ssh}'
+          tmate -S t.sock display -p '#{tmate_web}'
+          while true; do sleep 60; done
