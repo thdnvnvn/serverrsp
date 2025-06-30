@@ -14,11 +14,11 @@ LOG_FILE="iprdp.log"
 if [ -f "$LOG_FILE" ]; then
     echo -e "${GREEN}Phát hiện đã cài đặt trước đó.${NC}"
     echo -e "${YELLOW}Đang khởi động lại dịch vụ XRDP và SSH tunnel...${NC}"
-    
-    service xrdp start
 
-    echo -e "${BLUE}Đang tạo SSH tunnel qua Pinggy.io...${NC}"
-    ssh -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:3389 tcp@a.pinggy.io | tee -a "$LOG_FILE"
+    service xrdp start  
+
+    echo -e "${BLUE}Đang tạo SSH tunnel qua Pinggy.io...${NC}"  
+    ssh -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:3389 tcp@a.pinggy.io | tee -a "$LOG_FILE"  
 
     exit 0
 fi
@@ -26,14 +26,19 @@ fi
 # Lần chạy đầu tiên
 echo -e "${BLUE}
 ################################################################################
-#                                                                              #
-#                      CÀI ĐẶT LẦN ĐẦU: XRDP + LXDE + TUNNEL SSH               #
-#                                                                              #
+
+
+
+CÀI ĐẶT LẦN ĐẦU: XRDP + LXDE + TUNNEL SSH
+
+
+
 ################################################################################
 ${NC}"
 
 # Xác nhận
-read -p "$(echo -e ${GREEN}Bạn có chắc muốn tiếp tục cài đặt không? (y/n): ${NC}) " confirm
+echo -e "${GREEN}Bạn có chắc muốn tiếp tục cài đặt không? (y/n): ${NC}"
+read confirm
 if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
     echo -e "${RED}Đã huỷ cài đặt.${NC}"
     exit 0
