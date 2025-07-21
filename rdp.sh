@@ -38,7 +38,7 @@ echo -e "${BLUE}
 ${NC}"
 
 # Xác nhận
-echo -e "${GREEN}Bạn có chắc muốn tiếp tục cài đặt không? (y/n): ${NC}"
+echo -en "${GREEN}Bạn có chắc muốn tiếp tục cài đặt không? (y/n): ${NC}"
 read confirm
 if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
     echo -e "${RED}Đã huỷ cài đặt.${NC}"
@@ -51,16 +51,18 @@ apt update && apt upgrade -y
 export SUDO_FORCE_REMOVE=yes
 apt remove sudo -y
 apt install -y lxde xrdp
-echo "127.0.0.1   localhost" >> /etc/hosts
+grep -q "127.0.0.1" /etc/hosts || echo "127.0.0.1   localhost" >> /etc/hosts
 
 # Cấu hình XRDP
 echo "lxsession -s LXDE -e LXDE" >> /etc/xrdp/startwm.sh
 
 # Chọn cổng RDP
 clear
-read -p "$(echo -e ${YELLOW}Nhập port RDP muốn sử dụng (mặc định 3389): ${NC})" selectedPort
+echo -en "${YELLOW}Nhập port RDP muốn sử dụng (mặc định 3389): ${NC}"
+read selectedPort
 selectedPort=${selectedPort:-3389}
 
+# Áp dụng cổng
 sed -i "s/port=3389/port=$selectedPort/g" /etc/xrdp/xrdp.ini
 service xrdp restart
 
